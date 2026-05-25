@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "prog_pwm": {
+    "PAwerUP": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -64,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "prog_pwm:build:production"
+              "buildTarget": "PAwerUP:build:production"
             },
             "development": {
-              "buildTarget": "prog_pwm:build:development"
+              "buildTarget": "PAwerUP:build:development"
             }
           },
           "defaultConfiguration": "development"
