@@ -1,4 +1,45 @@
-<app-navbar></app-navbar>
-<main class ="main-content">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <!-- Logo -->
+    <a class="navbar-brand font-weight-bold text-uppercase text-info" routerLink="/">PAwerUP</a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Voci di menu principali -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/console" routerLinkActive="active">Console</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/videogiochi" routerLinkActive="active">Videogiochi</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/accessori" routerLinkActive="active">Accessori</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/elettronica" routerLinkActive="active">Elettronica</a>
+        </li>
+      </ul>
+
+      <!-- Icone Azioni / Account sulla destra -->
+      <ul class="navbar-nav ml-auto align-items-center">
+        <li class="nav-item mr-3">
+          <a class="nav-link" routerLink="/carrello" routerLinkActive="active">🛒 Carrello</a>
+        </li>
+        <li class="nav-item mr-2">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-info btn-sm" routerLink="/register">Registrati</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class ="container">
   <router-outlet></router-outlet>
-</main>
+</div>
