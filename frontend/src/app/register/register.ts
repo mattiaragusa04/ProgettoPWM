@@ -18,7 +18,7 @@ export class Register {
       nome: ['', Validators.required],
       cognome: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{6,}$/)]],
       confermaPassword: ['', Validators.required],
       tipoIndirizzo: ['', Validators.required],
       via: ['', Validators.required],
@@ -41,6 +41,14 @@ export class Register {
       console.log('Dati pronti per essere inviati al server:', this.registerForm.value);
     } else {
       console.log('Attenzione: il form contiene errori di validazione.');
+    }
+  }
+  togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password') as HTMLInputElement;
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
     }
   }
 }

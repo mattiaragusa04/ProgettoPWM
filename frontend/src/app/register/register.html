@@ -49,6 +49,7 @@
             <div class="form-group col-md-6">
               <label for="password" class="font-weight-bold text-muted">Password</label>
               <input type="password" class="form-control rounded-pill bg-light border-0 px-4" [class.is-invalid]="submitted && registerForm.get('password')?.invalid" id="password" formControlName="password" placeholder="Inserisci password">
+              <small class="form-text text-muted ml-2 mt-2">La password deve contenere almeno 6 caratteri, 1 carattere speciale, 1 lettera maiuscola e 1 numero.</small>
             </div>
             <div class="form-group col-md-6">
               <label for="confermaPassword" class="font-weight-bold text-muted">Conferma Password</label>
