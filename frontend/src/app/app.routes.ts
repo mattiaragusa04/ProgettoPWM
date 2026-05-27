@@ -6,7 +6,8 @@ import {Register} from "./register/register";
 import {Carrello} from "./carrello/carrello";
 
 export const routes: Routes = [
-    { path: '', component: Home},
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: 'home', component: Home},
     { path: 'categoria/:nome', component: Prodotti},
     { path: 'login', component: Login},
     { path: 'register', component: Register},

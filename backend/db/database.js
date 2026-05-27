@@ -1,0 +1,101 @@
+const sqlite3 = require("sqlite3").verbose();
+const db = new sqlite3.Database("./database.sqlite",
+(err) => {
+if (err) console.error(err.message);
+else console.log("Connected to SQLite DB");
+});
+
+// Creazione tabella utenti se non esiste
+db.exec(`
+CREATE TABLE IF NOT EXISTS utente (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    cognome TEXT NOT NULL,
+    email TEXT NOT NULL,
+    password TEXT NOT NULL,
+    puntiFedelta INTEGER DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS indirizzo(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    utente_id INTEGER,
+    tipo TEXT NOT NULL,
+    via TEXT NOT NULL,
+    numero_civico TEXT NOT NULL,
+    provincia TEXT NOT NULL,
+    paese TEXT NOT NULL,
+    cap TEXT NOT NULL,
+    FOREIGN KEY (utente_id) REFERENCES utente(id)
+);
+CREATE TABLE if not exists prodotto (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    categoria_id INTEGER,
+    nome TEXT NOT NULL,
+    descrizione TEXT NOT NULL,
+    giacenza INTEGER NOT NULL,
+    prezzoUnitarioAcquisto double NOT NULL,
+    prezzoUnitarioVendita double NOT NULL,
+    publicatoAcquisto boolean NOT NULL,
+    publicatoVetrina boolean NOT NULL,
+    condizione TEXT NOT NULL,
+    FOREIGN KEY (categoria_id) REFERENCES categoria(id)
+);
+CREATE TABLE if not exists ordine (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    utente_id INTEGER,
+    data DATA NOT NULL,
+    totale double NOT NULL,
+    statoOrdine TEXT NOT NULL,
+    acquisto_vendita boolean NOT NULL,
+    FOREIGN KEY (utente_id) REFERENCES utente(id)
+);
+CREATE TABLE if not exists composto (
+    ordine_id INTEGER,
+    prodotto_id INTEGER,
+    quantita INTEGER NOT NULL,
+    prezzoUnitario double NOT NULL,
+    PRIMARY KEY (ordine_id, prodotto_id),
+    FOREIGN KEY (ordine_id) REFERENCES ordine(id),
+    FOREIGN KEY (prodotto_id) REFERENCES prodotto(id)
+);
+CREATE TABLE if not exists recensione (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    utente_id INTEGER,
+    testo TEXT NOT NULL,
+    voto INTEGER NOT NULL,
+    data DATA NOT NULL,
+    FOREIGN KEY (utente_id) REFERENCES utente(id)
+);
+CREATE TABLE if not exists carrello (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    totale double NOT NULL
+);
+CREATE TABLE if not exists contiene (
+    carrello_id INTEGER,
+    prodotto_id INTEGER,
+    quantita INTEGER NOT NULL,
+    PRIMARY KEY (carrello_id, prodotto_id),
+    FOREIGN KEY (carrello_id) REFERENCES carrello(id),
+    FOREIGN KEY (prodotto_id) REFERENCES prodotto(id)
+);
+CREATE TABLE IF NOT EXISTS carta_di_credito (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    utente_id INTEGER,
+    numero_carta TEXT NOT NULL,
+    nome_titolare TEXT NOT NULL,
+    data_scadenza TEXT NOT NULL,
+    FOREIGN KEY (utente_id) REFERENCES utente(id)
+);
+CREATE TABLE IF NOT EXISTS categoria (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    denominazione TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS coupon (
+    denominazione TEXT NOT NULL,
+    codice TEXT NOT NULL,
+    sconto DOUBLE NOT NULL,
+    data_scadenza DATE NOT NULL,
+    PRIMARY KEY (codice)
+);
+`);
+
+module.exports = db;

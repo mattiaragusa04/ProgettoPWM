@@ -1,0 +1,19 @@
+  .dropdown .dropdown-menu {
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  }
+  .dropdown.show .dropdown-menu {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Stile per far sembrare il bottone un input */
+  .btn-custom-select {
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }

@@ -18,7 +18,7 @@ export class Register {
       nome: ['', Validators.required],
       cognome: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{6,}$/)]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,}$/)]],
       confermaPassword: ['', Validators.required],
       tipoIndirizzo: ['', Validators.required],
       via: ['', Validators.required],
@@ -34,21 +34,38 @@ export class Register {
     this.registerForm.patchValue({ tipoIndirizzo: tipo });
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.submitted = true;
     
     if (this.registerForm.valid) {
       console.log('Dati pronti per essere inviati al server:', this.registerForm.value);
+      
+      try {
+        // Chiamata al backend con fetch
+        const response = await fetch('http://localhost:3000/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.registerForm.value)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Successo:', data);
+          alert('Registrazione completata con successo!');
+        } else {
+          alert('Errore durante la registrazione. Riprova.');
+        }
+      } catch (error) {
+        console.error('Errore di connessione:', error);
+        alert('Impossibile contattare il server.');
+      }
     } else {
       console.log('Attenzione: il form contiene errori di validazione.');
     }
+
   }
-  togglePasswordVisibility() {
-    const passwordInput = document.getElementById('password') as HTMLInputElement;
-    if (passwordInput.type === 'password') {
-      passwordInput.type = 'text';
-    } else {
-      passwordInput.type = 'password';
-    }
-  }
+
+
 }
