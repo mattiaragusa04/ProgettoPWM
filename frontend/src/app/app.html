@@ -45,7 +45,10 @@
           </ng-container>
           <ng-container *ngIf="utenteLoggato"> 
             <li class="nav-item d-flex align-items-center mr-3">
-              <span class="text-light">Benvenuto, <strong>{{ utenteLoggato.nome }}</strong>!</span>
+              <a class="nav-link text-light d-flex align-items-center" [routerLink]="['profilo']" routerLinkActive="active" title="Il mio Profilo" style="cursor: pointer;">
+                <i class="bi bi-person-circle mr-2" style="font-size: 1.25rem; margin-right: 8px;"></i>
+                <span>Benvenuto, <strong>{{ utenteLoggato.nome }}</strong>!</span>
+              </a>
             </li>
             <li class="nav-item">
               <button class="btn btn-outline-danger btn-sm rounded-pill px-4 font-weight-bold" (click)="logout()">Logout</button>
