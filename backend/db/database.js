@@ -1,9 +1,13 @@
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./database.sqlite",
-(err) => {
-if (err) console.error(err.message);
-else console.log("Connected to SQLite DB");
-});
+    (err) => {
+        if (err) {
+            console.error(err.message);
+        } else {
+            console.log("Connected to SQLite DB");
+            db.run("PRAGMA foreign_keys = ON;"); // Abilita il controllo delle foreign keys
+        }
+    });
 
 // Creazione tabella utenti se non esiste
 db.exec(`
