@@ -9,7 +9,7 @@ const db = new sqlite3.Database("./database.sqlite",
         }
     });
 
-// Creazione tabella utenti se non esiste
+//creazione delle tabelle
 db.exec(`
 CREATE TABLE IF NOT EXISTS utente (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,15 +38,15 @@ CREATE TABLE if not exists prodotto (
     giacenza INTEGER NOT NULL,
     prezzoUnitarioAcquisto double NOT NULL,
     prezzoUnitarioVendita double NOT NULL,
-    publicatoAcquisto boolean NOT NULL,
-    publicatoVetrina boolean NOT NULL,
+    pubblicatoAcquisto boolean NOT NULL,
+    pubblicatoVetrina boolean NOT NULL,
     condizione TEXT NOT NULL,
     FOREIGN KEY (categoria_id) REFERENCES categoria(id)
 );
 CREATE TABLE if not exists ordine (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     utente_id INTEGER,
-    data DATA NOT NULL,
+    data DATE NOT NULL,
     totale double NOT NULL,
     statoOrdine TEXT NOT NULL,
     acquisto_vendita boolean NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE if not exists recensione (
     utente_id INTEGER,
     testo TEXT NOT NULL,
     voto INTEGER NOT NULL,
-    data DATA NOT NULL,
+    data DATE NOT NULL,
     FOREIGN KEY (utente_id) REFERENCES utente(id)
 );
 CREATE TABLE if not exists carrello (
@@ -112,5 +112,8 @@ CREATE TABLE IF NOT EXISTS messaggio_contatto (
     data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 `);
+
+
+
 
 module.exports = db;

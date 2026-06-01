@@ -30,6 +30,7 @@ export class Register {
     this.errorMessage = '';
     
     if (this.registerForm.get('password')?.value !== this.registerForm.get('confermaPassword')?.value) {
+      alert("Le password non coincidono. Riprova.");
       this.errorMessage = 'Le password non coincidono.';
       return; // Interrompe l'invio se le password non coincidono
     }
@@ -39,7 +40,7 @@ export class Register {
       
       try {
         // Chiamata al backend con fetch
-        const response = await fetch('http://localhost:3000/api/register', {
+        const response = await fetch('http://localhost:3000/api/auth/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -62,8 +63,9 @@ export class Register {
           this.router.navigate(['/']);
         } else if (response.status === 400) {
           const errorData = await response.json();
-          alert(errorData.error);
-          this.errorMessage = errorData.error;
+          // Legge 'message' inviato per gli errori 400, o 'error' inviato per gli errori 500
+          alert(errorData.message || errorData.error);
+          this.errorMessage = errorData.message || errorData.error;
         } else {
           alert('Errore durante la registrazione. Riprova.');
         }

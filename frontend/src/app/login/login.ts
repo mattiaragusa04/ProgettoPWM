@@ -31,7 +31,7 @@ export class Login {
 
     this.isLoading = true;
     try{
-      const response = await fetch('http://localhost:3000/api/login', {
+      const response = await fetch('http://localhost:3000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -49,8 +49,9 @@ export class Login {
         alert('Login effettuato con successo!');
         this.router.navigate(['/']); // Reindirizza alla home
       } else {
-        alert(this.errorMessage);
-        this.errorMessage = 'Credenziali non valide. Riprova.';
+        const errorData = await response.json();
+        alert(errorData.message || errorData.error);
+        this.errorMessage = errorData.message || errorData.error;
       }
     }catch(error){
       console.error('Errore durante il login:', error);

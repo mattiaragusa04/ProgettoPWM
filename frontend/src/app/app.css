@@ -2,7 +2,7 @@
 
   /* Hover e active delle voci navbar */
 .navbar-brand {
-  font-size: 1.6rem !important;
+  font-size: 1.25rem !important;
 }
 
 .navbar-nav .nav-link {
@@ -10,7 +10,8 @@
   color: rgba(255, 255, 255, 0.8) !important;
   transition: color 0.5s ease;
   padding-bottom: 7px;
-  font-size: 1.3rem;
+  font-size: 0.95rem;
+  margin: 0 0.1rem;
 }
 
 .navbar-nav .nav-link::after {
@@ -68,8 +69,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  width: 35px; /* Spazio per l'icona */
-  height: 37px; /* Allineamento verticale con gli altri item */
+  width: 85px; /* Spazio per l'icona e il testo */
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -122,19 +122,14 @@
 }
 
 .search-container-animated.open {
-  width: 220px;
+  width: 180px;
 }
 
 .search-icon-btn {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 35px;
-  padding: 0;
+  justify-content: flex-start;
+  width: 100%;
   opacity: 1;
   visibility: visible;
   transition: opacity 0.2s, transform 0.3s, visibility 0s;
@@ -153,7 +148,7 @@
 .search-input-wrapper {
   position: absolute;
   left: 0;
-  width: 220px; /* Larghezza fissa per non far saltare gli elementi interni */
+  width: 180px; /* Larghezza fissa per non far saltare gli elementi interni */
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s;
