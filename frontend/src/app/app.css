@@ -1,66 +1,4 @@
-:root {
-  /* Definizione dei colori globali */
-  --main-color: #f86ded;       /* Rosa principale */
-  --main-color-hover: #ff9ef8; /* Rosa più luminoso e acceso */
-  --bg-dark: #0f172a;          /* Blu scuro profondo*/
-  --card-bg: #0f172a           /* Blu scuro profondo - Colore "Carta" Login*/
-; /* Sfondo card semi-trasparente */
-  --text-secondary: #ffffff;   /* Colore testo attenuato */
-}
-
-/* Applichiamo lo sfondo scuro globale al body */
-body {
-  background-color: var(--bg-dark);
-  color: #f8fafc; /* Testo quasi bianco */
-  min-height: 100vh;
-  margin: 0;
-}
-
-/* Sovrascrizione classi Bootstrap per riflettere il nuovo brand */
-.text-info {
-  color: var(--main-color) !important;
-}
-
-/* Stile base per tutti i bottoni per renderli fluidi */
-.btn {
-  transition: all 0.3s ease-in-out !important;
-}
-
-/* Applichiamo lo stile PAwerUP a btn-info e a una nuova classe .btn-home */
-.btn-info, .btn-home {
-  background-color: var(--main-color) !important;
-  border-color: var(--main-color) !important;
-  color: rgb(255, 255, 255) !important;
-}
-
-.btn-info:hover, .btn-info:focus,
-.btn-home:hover, .btn-home:focus {
-  background-color: var(--main-color-hover) !important;
-  border-color: var(--main-color-hover) !important;
-  box-shadow: 0 0 20px rgba(248, 109, 237, 0.6); /* Effetto neon/glow rosa */
-  transform: translateY(-2px); /* Leggero sollevamento per feedback visivo */
-  color: white !important;
-}
-
-  .dropdown .dropdown-menu {
-    display: block;
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-  }
-  .dropdown.show .dropdown-menu {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
-  }
-  /* Stile per far sembrare il bottone un input */
-  .btn-custom-select {
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+/* Stili specifici per la Navbar, il Footer e la barra di ricerca del componente App */
 
   /* Hover e active delle voci navbar */
 .navbar-brand {
@@ -96,60 +34,6 @@ body {
   width: 100%;
 }
 
-.auth-card {
-  background: rgba(110, 110, 110, 0.103); /* Effetto vetro */
-  backdrop-filter: blur(10px); /* Sfocatura sfondo */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-}
-
-/* Adattiamo tutte le card per il tema scuro */
-.card {
-  background-color: var(--card-bg) !important;
-  border: 4px solid #f86ded !important;
-  color: white !important;
-  backdrop-filter: blur(10px); /* Effetto vetro sfocato */
-}
-
-/* Sistemiamo i testi muti di Bootstrap che sul bianco erano grigi, qui devono essere più chiari */
-.text-muted {
-  color: var(--text-secondary) !important;
-}
-
-/* Rendi gli input dei form meno "sparati" */
-.bg-light {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  color: white !important;
-}
-
-/* Stili per l'Hero Box e l'effetto particelle */
-.hero-box {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, #1a1a2e, #f86ded , #06b6d4);
-  border-radius: 1rem;
-  min-height: 380px; /* Assicurati che ci sia un'altezza minima */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.particle-canvas {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1; /* Sopra al canvas */
-  text-align: center;
-  color: white;
-}
-
 /* Footer Glassmorphism */
 .footer {
   background: #0f1729;
@@ -178,3 +62,62 @@ body {
 .social-icon.facebook:hover { color: #1877F2; }
 
 .gap-3 { gap: 1rem; }
+
+/* Animazione bidirezionale per la barra di ricerca */
+.search-container-animated {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 35px; /* Spazio per l'icona */
+  height: 37px; /* Allineamento verticale con gli altri item */
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-container-animated.open {
+  width: 220px;
+}
+
+.search-icon-btn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  padding: 0;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.2s, transform 0.3s, visibility 0s;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.search-container-animated.open .search-icon-btn {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.5); /* Effetto rimpicciolimento mentre sparisce */
+  transition: opacity 0.2s, transform 0.3s, visibility 0.2s;
+}
+
+.search-input-wrapper {
+  position: absolute;
+  left: 0;
+  width: 220px; /* Larghezza fissa per non far saltare gli elementi interni */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s;
+  transform: translateX(-10px);
+  pointer-events: none;
+  flex-wrap: nowrap !important;
+}
+
+.search-container-animated.open .search-input-wrapper {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s;
+}

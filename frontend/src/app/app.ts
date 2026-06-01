@@ -1,17 +1,23 @@
-import { Component, signal, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, signal, OnInit, Inject, PLATFORM_ID, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule, FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App implements OnInit {
   protected readonly title = signal('PAwerUP');
-  //Per provare con utente loggato = {nome: 'Prova'}
   utenteLoggato: any = null;
+  termineRicerca: string = '';
+  mostraRicerca: boolean = false;
+
+  @ViewChild('searchContainer') searchContainer!: ElementRef;
+  @ViewChild('searchInput') searchInput!: ElementRef;
+
 
   constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
     // Questo permette alla navbar di aggiornarsi automaticamente
@@ -47,5 +53,31 @@ export class App implements OnInit {
     this.utenteLoggato = null;
     alert('Logout effettuato con successo!');
     this.router.navigate(['/']);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.mostraRicerca && this.searchContainer && !this.searchContainer.nativeElement.contains(event.target)) {
+        this.mostraRicerca = false;
+      }
+    }
+  }
+
+  toggleRicerca(event: Event): void {
+    if (isPlatformBrowser(this.platformId)) {
+      event.stopPropagation();
+      this.mostraRicerca = !this.mostraRicerca;
+      if (this.mostraRicerca) {
+        setTimeout(() => this.searchInput?.nativeElement.focus(), 0);
+      }
+    }
+  }
+
+  cerca(){
+    if (this.termineRicerca.trim()) {
+      this.router.navigate(['/ricerca'], { queryParams: { q: this.termineRicerca } });
+    }
+    this.mostraRicerca = false;
   }
 }

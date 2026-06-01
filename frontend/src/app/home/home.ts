@@ -1,6 +1,6 @@
-import { Component, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, ViewChild, ElementRef, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 interface Particle {
   x: number;
@@ -33,6 +33,7 @@ export class Home implements AfterViewInit, OnDestroy {
   private animFrame!: number;
   private mouse = { x: -999, y: -999 };
   private numParticles = 200;
+  private resizeListener?: () => void;
 
   private COLORS = ['#f86ded', '#a78bfa'];
 
@@ -57,31 +58,35 @@ export class Home implements AfterViewInit, OnDestroy {
     { nome: 'Logitech G Cloud', immagine: 'https://m.media-amazon.com/images/I/51-mF27xZpL._AC_SL1500_.jpg', prezzo: '359,00€' }
   ];
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   ngAfterViewInit() {
-    const canvas = this.canvasRef.nativeElement;
-    const box = this.heroBoxRef.nativeElement;
-    this.ctx = canvas.getContext('2d')!;
+    if (isPlatformBrowser(this.platformId)) {
+      const canvas = this.canvasRef.nativeElement;
+      const box = this.heroBoxRef.nativeElement;
+      this.ctx = canvas.getContext('2d')!;
 
-    // Resize canvas al box
-    const resize = () => {
-      canvas.width = box.offsetWidth;
-      canvas.height = box.offsetHeight;
-      this.initParticles();
-    };
-    resize();
-    window.addEventListener('resize', resize);
+      // Resize canvas al box
+      this.resizeListener = () => {
+        canvas.width = box.offsetWidth;
+        canvas.height = box.offsetHeight;
+        this.initParticles();
+      };
+      this.resizeListener();
+      window.addEventListener('resize', this.resizeListener);
 
-    box.addEventListener('mousemove', (e: MouseEvent) => {
-      const rect = box.getBoundingClientRect();
-      this.mouse.x = e.clientX - rect.left;
-      this.mouse.y = e.clientY - rect.top;
-    });
+      box.addEventListener('mousemove', (e: MouseEvent) => {
+        const rect = box.getBoundingClientRect();
+        this.mouse.x = e.clientX - rect.left;
+        this.mouse.y = e.clientY - rect.top;
+      });
 
-    box.addEventListener('mouseleave', () => {
-      this.mouse = { x: -999, y: -999 };
-    });
+      box.addEventListener('mouseleave', () => {
+        this.mouse = { x: -999, y: -999 };
+      });
 
-    this.animate();
+      this.animate();
+    }
   }
 
   private initParticles() {
@@ -155,6 +160,13 @@ export class Home implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    cancelAnimationFrame(this.animFrame);
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.animFrame !== undefined) {
+        cancelAnimationFrame(this.animFrame);
+      }
+      if (this.resizeListener) {
+        window.removeEventListener('resize', this.resizeListener);
+      }
+    }
   }
 }
